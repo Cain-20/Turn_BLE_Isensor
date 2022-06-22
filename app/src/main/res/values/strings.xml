@@ -1,6 +1,10 @@
 <resources>
-    <string name="app_name">BLE</string>
+    <string name="app_name">BLE_V1</string>
+    <string name="discover">Discover</string>
     <string name="test">Test</string>
+    <string name="advertise">Advertise</string>
+    <string name="Test">Test</string>
     <string name="Advertise">Advertise</string>
-    <string name="ble_uuid">00000000-0000-1000-8000-00805F9B34FB</string>
+    <string name="Discover">Discover</string>
+    <string name="ble_uuid">08AA5529957A</string>
 </resources>

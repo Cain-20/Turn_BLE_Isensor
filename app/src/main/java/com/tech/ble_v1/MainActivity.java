@@ -1,23 +1,24 @@
 package com.tech.ble_v1;
-
+/*
+* @Autores: Caio Augusto Moreira Marques
+*           Luis Gustavo Oliveira
+* @Versões: 1.0 Caio - MainActivity 21/07/22
+*           1.1 Luis Gustavo - byte_ManufacturerData 18/08/22
+*
+* */
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.AdvertiseCallback;
 import android.bluetooth.le.AdvertiseData;
 import android.bluetooth.le.AdvertiseSettings;
 import android.bluetooth.le.BluetoothLeAdvertiser;
-import android.bluetooth.le.BluetoothLeScanner;
-import android.bluetooth.le.ScanCallback;
-import android.bluetooth.le.ScanFilter;
-import android.bluetooth.le.ScanResult;
-import android.bluetooth.le.ScanSettings;
-import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ParcelUuid;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView mText;
     private Button mAdvertiseButton;
-    private BluetoothAdapter bluetoothAdapter;
+    private Button mDiscoverButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,21 +47,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         mText = (TextView) findViewById(R.id.text);
+        mDiscoverButton = (Button) findViewById(R.id.discover_btn);
         mAdvertiseButton = (Button) findViewById(R.id.advertise_btn);
 
+        mDiscoverButton.setOnClickListener(this);
         mAdvertiseButton.setOnClickListener(this);
 
-        final BluetoothManager bluetoothManager =
-                (BluetoothManager) getSystemService( Context.BLUETOOTH_SERVICE);
-        bluetoothAdapter = bluetoothManager.getAdapter();
 
         if (!BluetoothAdapter.getDefaultAdapter().isMultipleAdvertisementSupported()) {
             Toast.makeText(this, "Multiple advertisement not supported", Toast.LENGTH_SHORT).show();
             mAdvertiseButton.setEnabled(false);
+            mDiscoverButton.setEnabled(false);
         }
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("MissingPermission")
     private void advertise() {
         BluetoothLeAdvertiser advertiser = BluetoothAdapter.getDefaultAdapter().getBluetoothLeAdvertiser();
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setIncludeDeviceName(false)
                 .addServiceUuid(pUuid)
                 .addServiceData(pUuid, "Data".getBytes(Charset.forName("UTF-8")))
+                .addManufacturerData ( 1, byte_ManufacturerData ( "0e6b14" ) )
                 .build();
 
         AdvertiseCallback advertisingCallback = new AdvertiseCallback() {
@@ -93,6 +96,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         };
 
         advertiser.startAdvertising ( settings, data, advertisingCallback );
+    }
+
+    public byte[] byte_ManufacturerData(String rfid){
+
+        int len = rfid.length();
+        if (len<6){
+            rfid = "0"+rfid;
+            len = rfid.length ();
+        }
+        byte[] data = new byte[len/2];
+
+        for (int i = 0; i < len; i+=2) {
+            data[i / 2] = (byte) ((Character.digit(rfid.charAt(i), 16) << 4) + Character.digit(rfid.charAt(i+1), 16));
+        }
+        return data;
     }
 
     @Override
