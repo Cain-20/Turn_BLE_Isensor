@@ -1,2 +1,3 @@
 # Bluetooth-LE
-Aplicativo com envio de um pacote de publicidade especifico e um login
+Projeto para transformar o smartphone em um sensor. Anunciando dados para outros dispositivos que consigam coletar Bluetooth Low Energy.
+
