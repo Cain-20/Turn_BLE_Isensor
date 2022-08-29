@@ -4,8 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Technolog/Desktop/BLE_V1/app/src/main/res/drawable-v24/button.xml" value="0.1" />
+        <entry key="..\:/Users/Technolog/Desktop/BLE_V1/app/src/main/res/drawable-v24/container_components.xml" value="0.1" />
+        <entry key="..\:/Users/Technolog/Desktop/BLE_V1/app/src/main/res/layout/activity_fuel_pump.xml" value="0.17291666666666666" />
         <entry key="..\:/Users/Technolog/Desktop/BLE_V1/app/src/main/res/layout/activity_login.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/Technolog/Desktop/BLE_V1/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/Technolog/Desktop/BLE_V1/app/src/main/res/layout/activity_main.xml" value="0.25" />
       </map>
     </option>
   </component>
